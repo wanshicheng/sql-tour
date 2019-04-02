@@ -95,3 +95,31 @@ SELECT NAME
 FROM department;
 
 # 在查询语句中使用列名、字符、表达式和内建函数
+SELECT emp_id,
+'ACTIVE',
+emp_id * 3.14159,
+UPPER(lname)
+FROM employee;
+
+SELECT VERSION(),
+USER(),
+DATABASE();
+
+# 别名
+SELECT emp_id,
+'ACTIVE' STATUS,
+emp_id * 3.14159 empid_x_pi,
+UPPER(lname) last_name_upper
+FROM employee;
+
+SELECT emp_id,
+'ACTIVE' AS STATUS,
+emp_id * 3.14159 AS empid_x_pi,
+UPPER(lname) AS last_name_upper
+FROM employee;
+
+SELECT cust_id
+FROM account;
+# 去除重复行
+SELECT DISTINCT cust_id
+FROM account;
