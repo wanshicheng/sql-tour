@@ -68,9 +68,52 @@ WHERE emp_id NOT IN (SELECT superior_emp_id
 FROM employee
 WHERE superior_emp_id IS NOT NULL);
 
+	# all 运算符
+	# 将某单值与集合中的每个值进行比较
+	# 即与常用运算符（=、<>、<、>、<=、>=）配合使用
+SELECT emp_id, fname, lname, title
+FROM employee
+WHERE emp_id <> ALL (SELECT superior_emp_id
+FROM employee
+WHERE superior_emp_id IS NOT NULL);	
+
+
+SELECT account_id, cust_id, product_cd, avail_balance
+FROM account
+WHERE avail_balance < ALL (SELECT a.avail_balance
+FROM account a INNER JOIN individual i
+ON a.cust_id = i.cust_id
+WHERE i.fname = 'Frank' AND i.lname = 'Tucher');
+
+SELECT a.avail_balance
+FROM account a INNER JOIN individual i
+ON a.cust_id = i.cust_id
+WHERE i.fname = 'Frank' AND i.lname = 'Tucker';
+
+	# any 运算符
+	# 使用 =any 与使用in等效
+SELECT account_id, cust_id, product_cd, avail_balance
+FROM account
+WHERE avail_balance > ANY (SELECT a.avail_balance
+FROM account a INNER JOIN individual i
+ON a.`cust_id` = i.`cust_id`
+WHERE i.fname = 'Frank' AND i.lname = 'Tucker');
+
+	# 多列子查询
+		#一个多重单列子查询的例子
+SELECT account_id, product_cd, cust_id
+FROM account
+WHERE open_branch_id = (SELECT branch_id
+FROM branch
+WHERE NAME = 'Woburn Branch')
+AND open_emp_id IN (SELECT emp_id
+FROM employee
+WHERE title = 'Teller' OR title = 'Head Teller');
+
+
 #关联子查询
 	#在跟新或删除语句中经常会用到
 	
 	
-	
-
+SELECT RAND(1);	
+SELECT RAND(2);	
